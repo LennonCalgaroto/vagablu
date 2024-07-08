@@ -1,66 +1,21 @@
-import React, {useEffect, useState} from 'react';
-import GenericSearch from '../component/common/GenericSearch.jsx';
-import styled from 'styled-components';
-import {TableCell, IconButton} from '@mui/material';
-import EditIcon from '@mui/icons-material/Edit';
-import DeleteIcon from '@mui/icons-material/Delete';
-import InformacoesBasicas from '../component/common/modal/InformacoesBasicas.jsx';
-import {useUserService} from "../services/useUserService.js";
-
-const StyledStatusCell = styled(TableCell)`
-    padding: 8px;
-    border-bottom: none;
-`;
-const StyledGrid = styled.div`
-    width: calc(100% - 100px);
-    height: calc(100vh - 140px);
-    display: grid;
-    margin-top: 80px;
-    margin-right: 30px;
-    margin-bottom: 60px;
-    padding: 40px;
-    box-shadow: 0px 0px 15px 5px rgba(0, 0, 0, 0.3);
-    border-radius: 16px;
-    overflow: auto;
-`;
-
-
-const StatusIndicator = styled.span`
-    background-color: ${({status}) => {
-        switch (status) {
-            case 'Ativo':
-                return 'green';
-            case 'Inativo':
-                return 'red';
-            default:
-                return 'transparent';
-        }
-    }};
-    color: white;
-    border-radius: 8px;
-    padding: 4px 8px;
-`;
-
-
 const Page1 = () => {
     const [open, setOpen] = useState(false);
     const [selectedCustomer, setSelectedCustomer] = useState(null);
     const [users, setUsers] = useState([]);
-    console.log(users)
-    const {getAll, remove} = useUserService()
+    const {getAll, remove, create, update} = useUserService();
 
     useEffect(() => {
-        getAllCustomers()
+        getAllCustomers();
     }, []);
 
     async function getAllCustomers() {
         const users = await getAll();
-        console.log(users);
         setUsers(users);
     }
 
     const handleNewCustomer = () => {
         const newCustomer = {
+            id: Date.now(),  // A unique id for the new customer
             name: '',
             cpf: '',
             phone: '',
@@ -82,8 +37,19 @@ const Page1 = () => {
     };
 
     const handleDeleteCustomer = async (customerId) => {
-        await remove(customerId)
-        await getAllCustomers()
+        await remove(customerId);
+        await getAllCustomers();
+    };
+
+    const handleSaveCustomer = async (customer) => {
+        if (selectedCustomer.id) {
+            await update(selectedCustomer.id, customer);
+        } else {
+            await create(customer);
+        }
+        await getAllCustomers();
+        setOpen(false);
+        setSelectedCustomer(null);
     };
 
     const handleCloseModal = () => {
@@ -100,18 +66,19 @@ const Page1 = () => {
     const renderActionsCell = (customer) => (
         <TableCell>
             <IconButton onClick={() => handleEditCustomer(customer)}>
-                <EditIcon/>
+                <EditIcon />
             </IconButton>
             <IconButton onClick={() => handleDeleteCustomer(customer.id)}>
-                <DeleteIcon/>
+                <DeleteIcon />
             </IconButton>
         </TableCell>
     );
 
     const columns = [
-        {field: 'name', headerName: 'Nome'},
-        {field: 'phone', headerName: 'Telefone'},
-        {field: 'status', headerName: 'Status', renderCell: renderStatusCell}
+        { field: 'name', headerName: 'Nome' },
+        { field: 'phone', headerName: 'Telefone' },
+        { field: 'cpf', headerName: 'CPF' },
+        // {field: 'status', headerName: 'Status', renderCell: renderStatusCell}
     ];
 
     return (
@@ -129,6 +96,7 @@ const Page1 = () => {
                 open={open}
                 onClose={handleCloseModal}
                 initialValues={selectedCustomer}
+                onSave={handleSaveCustomer}  // Pass the save function to the modal
             />
         </StyledGrid>
     );

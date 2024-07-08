@@ -26,7 +26,7 @@ const StyledGridItem = styled(Grid)`
   margin-bottom: 16px;
 `;
 
-const InformacoesBasicas = ({ open, onClose, initialValues }) => {
+const InformacoesBasicas = ({ open, onClose, initialValues, onSave }) => {
   const [formData, setFormData] = useState({
     name: '',
     cpf: '',
@@ -52,139 +52,138 @@ const InformacoesBasicas = ({ open, onClose, initialValues }) => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Adicione a lógica para salvar os dados aqui
-    console.log(formData);
+    onSave(formData);
     onClose();
   };
 
   return (
-    <Modal
-      open={open}
-      onClose={onClose}
-      aria-labelledby="modal-title"
-      aria-describedby="modal-description"
-    >
-      <Box sx={modalStyle}>
-        <form onSubmit={handleSubmit}>
-          <Grid container spacing={2}>
-            <StyledGridItem item xs={12}>
-              <Typography variant="h6" component="h3" gutterBottom>
-                Informações Básicas
-              </Typography>
-              <Grid container spacing={2}>
-                <Grid item xs={6}>
-                  <StyledTextField
-                    fullWidth
-                    label="Nome"
-                    name="name"
-                    value={formData.name}
-                    onChange={handleChange}
-                  />
+      <Modal
+          open={open}
+          onClose={onClose}
+          aria-labelledby="modal-title"
+          aria-describedby="modal-description"
+      >
+        <Box sx={modalStyle}>
+          <form onSubmit={handleSubmit}>
+            <Grid container spacing={2}>
+              <StyledGridItem item xs={12}>
+                <Typography variant="h6" component="h3" gutterBottom>
+                  Informações Básicas
+                </Typography>
+                <Grid container spacing={2}>
+                  <Grid item xs={6}>
+                    <StyledTextField
+                        fullWidth
+                        label="Nome"
+                        name="name"
+                        value={formData.name}
+                        onChange={handleChange}
+                    />
+                  </Grid>
+                  <Grid item xs={6}>
+                    <StyledTextField
+                        fullWidth
+                        label="CPF"
+                        name="cpf"
+                        value={formData.cpf}
+                        onChange={handleChange}
+                    />
+                  </Grid>
+                  <Grid item xs={6}>
+                    <StyledTextField
+                        fullWidth
+                        label="CEP"
+                        name="cep"
+                        value={formData.cep}
+                        onChange={handleChange}
+                    />
+                  </Grid>
+                  <Grid item xs={6}>
+                    <StyledTextField
+                        fullWidth
+                        label="Rua"
+                        name="rua"
+                        value={formData.rua}
+                        onChange={handleChange}
+                    />
+                  </Grid>
+                  <Grid item xs={6}>
+                    <StyledTextField
+                        fullWidth
+                        label="Número"
+                        name="numero"
+                        value={formData.numero}
+                        onChange={handleChange}
+                    />
+                  </Grid>
+                  <Grid item xs={6}>
+                    <StyledTextField
+                        fullWidth
+                        label="Bairro"
+                        name="bairro"
+                        value={formData.bairro}
+                        onChange={handleChange}
+                    />
+                  </Grid>
+                  <Grid item xs={6}>
+                    <StyledTextField
+                        fullWidth
+                        label="Cidade"
+                        name="cidade"
+                        value={formData.cidade}
+                        onChange={handleChange}
+                    />
+                  </Grid>
+                  <Grid item xs={6}>
+                    <StyledTextField
+                        fullWidth
+                        label="Estado"
+                        name="estado"
+                        value={formData.estado}
+                        onChange={handleChange}
+                    />
+                  </Grid>
                 </Grid>
-                <Grid item xs={6}>
-                  <StyledTextField
-                    fullWidth
-                    label="CPF"
-                    name="cpf"
-                    value={formData.cpf}
-                    onChange={handleChange}
-                  />
+              </StyledGridItem>
+              <StyledGridItem item xs={12}>
+                <Typography variant="h6" component="h3" gutterBottom>
+                  Contato
+                </Typography>
+                <Grid container spacing={2}>
+                  <Grid item xs={6}>
+                    <StyledTextField
+                        fullWidth
+                        label="Celular"
+                        name="phone"
+                        value={formData.phone}
+                        onChange={handleChange}
+                    />
+                  </Grid>
+                  <Grid item xs={6}>
+                    <StyledTextField
+                        fullWidth
+                        label="Email"
+                        name="email"
+                        value={formData.email}
+                        onChange={handleChange}
+                    />
+                  </Grid>
                 </Grid>
-                <Grid item xs={6}>
-                  <StyledTextField
-                    fullWidth
-                    label="CEP"
-                    name="cep"
-                    value={formData.cep}
-                    onChange={handleChange}
-                  />
-                </Grid>
-                <Grid item xs={6}>
-                  <StyledTextField
-                    fullWidth
-                    label="Rua"
-                    name="rua"
-                    value={formData.rua}
-                    onChange={handleChange}
-                  />
-                </Grid>
-                <Grid item xs={6}>
-                  <StyledTextField
-                    fullWidth
-                    label="Número"
-                    name="numero"
-                    value={formData.numero}
-                    onChange={handleChange}
-                  />
-                </Grid>
-                <Grid item xs={6}>
-                  <StyledTextField
-                    fullWidth
-                    label="Bairro"
-                    name="bairro"
-                    value={formData.bairro}
-                    onChange={handleChange}
-                  />
-                </Grid>
-                <Grid item xs={6}>
-                  <StyledTextField
-                    fullWidth
-                    label="Cidade"
-                    name="cidade"
-                    value={formData.cidade}
-                    onChange={handleChange}
-                  />
-                </Grid>
-                <Grid item xs={6}>
-                  <StyledTextField
-                    fullWidth
-                    label="Estado"
-                    name="estado"
-                    value={formData.estado}
-                    onChange={handleChange}
-                  />
-                </Grid>
+              </StyledGridItem>
+              <Grid item xs={12}>
+                <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
+                  <Button type="submit" variant="contained" color="primary" sx={{ mr: 2 }}>
+                    Salvar
+                  </Button>
+                  <Button onClick={onClose} variant="contained" color="secondary">
+                    Cancelar
+                  </Button>
+                </Box>
               </Grid>
-            </StyledGridItem>
-            <StyledGridItem item xs={12}>
-              <Typography variant="h6" component="h3" gutterBottom>
-                Contato
-              </Typography>
-              <Grid container spacing={2}>
-                <Grid item xs={6}>
-                  <StyledTextField
-                    fullWidth
-                    label="Celular"
-                    name="phone"
-                    value={formData.phone}
-                    onChange={handleChange}
-                  />
-                </Grid>
-                <Grid item xs={6}>
-                  <StyledTextField
-                    fullWidth
-                    label="Email"
-                    name="email"
-                    value={formData.email}
-                    onChange={handleChange}
-                  />
-                </Grid>
-              </Grid>
-            </StyledGridItem>
-            <Grid item xs={12}>
-              <Box sx={{ display: 'flex', justifyContent: 'flex-end' }}>
-                <Button type="submit" variant="contained" color="primary" sx={{ mr: 2 }}>
-                  Salvar
-                </Button>
-                <Button onClick={onClose} variant="contained" color="secondary">
-                  Cancelar
-                </Button>
-              </Box>
             </Grid>
-          </Grid>
-        </form>
-      </Box>
-    </Modal>
+          </form>
+        </Box>
+      </Modal>
   );
 };
 
