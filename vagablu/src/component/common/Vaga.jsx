@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import styled from 'styled-components';
 import faker from 'faker';
+import {Grid, Typography} from "@mui/material";
 
 const StyledGrid = styled.div`
   width: calc(100% - 100px);
@@ -59,6 +60,11 @@ const Vagas = () => {
 
     return (
         <StyledGrid>
+            <Grid item xs={12}>
+                <Typography variant="h4" component="h1" fontWeight="bold">
+                    Monitoramento de vagas
+                </Typography>
+            </Grid>
             <Container>
                 {reservas.map((reserva, index) => (
                     <Vaga key={index} reserved={reserva.reserved} onClick={() => reservarVaga(index)}>

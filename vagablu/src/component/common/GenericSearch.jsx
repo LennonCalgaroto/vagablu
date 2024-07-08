@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useEffect, useState} from 'react';
 import styled from 'styled-components';
 import {
   Container,
@@ -63,6 +63,10 @@ const StatusIndicator = styled.span`
 
 const GenericSearch = ({ title, data, searchField, columns,handleNew, handleEdit, handleDelete }) => {
   const [filteredData, setFilteredData] = useState(data);
+
+  useEffect(() => {
+    setFilteredData(data);
+  }, [data]);
 
   const handleSearchInputChange = (event) => {
     const inputValue = event.target.value.toLowerCase();
