@@ -5,10 +5,9 @@ import {useLocalStorage} from "@uidotdev/usehooks";
 export const useUserService = () => {
     const [users, setUsers] = useLocalStorage("users", []);
 
-    async function getAll() {
-        await sleep(700)
+    const getAll = async () => {
         return users;
-    }
+    };
 
     function getById(id) {
         const user = users.find((user) => user.id === id);
@@ -37,10 +36,8 @@ export const useUserService = () => {
     }
 
     async function remove(id) {
-        setUsers(prevState => {
-            return prevState.filter(user => user.id !== id)
-        })
-        await sleep(1500);
+        const newState = users.filter((user) => user.id !== id);
+        setUsers(newState);
     }
 
     return {

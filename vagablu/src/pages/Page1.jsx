@@ -47,13 +47,13 @@ const Page1 = () => {
     const {getAll, remove, update, create} = useUserService()
 
     useEffect(() => {
-        getAllCustomers()
+        getAllCustomers(); // Carrega os dados iniciais ao montar o componente
     }, []);
 
     async function getAllCustomers() {
         const users = await getAll();
-        console.log(users);
-        setUsers(users);
+        console.log('Fetched users:', users);
+        setUsers(users); // Atualiza o estado local com os dados obtidos
     }
 
     const handleNewCustomer = () => {
@@ -82,6 +82,7 @@ const Page1 = () => {
         }
         setSelectedCustomer(null);
         setOpen(false);
+        await getAllCustomers();
     };
 
     const handleEditCustomer = (customer) => {
@@ -90,13 +91,14 @@ const Page1 = () => {
     };
 
     const handleDeleteCustomer = async (customerId) => {
-        await remove(customerId)
-        await getAllCustomers()
+        await remove(customerId);
+        await getAllCustomers();
     };
 
-    const handleCloseModal = () => {
+    const handleCloseModal = async () => {
         setOpen(false);
         setSelectedCustomer(null);
+        await getAllCustomers();
     };
 
     const renderStatusCell = (status) => (
