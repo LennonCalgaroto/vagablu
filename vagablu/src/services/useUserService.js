@@ -2,18 +2,6 @@
 import {sleep} from "../utils/sleep.js";
 import {useLocalStorage} from "@uidotdev/usehooks";
 
-// const customers = [
-//     { id: 1, name: 'Cliente 1', cpf: '123.456.789-00', phone: '123456789', email: 'cliente1@example.com', status: 'Ativo', cep: '12345-678', rua: 'Rua A', numero: '100', bairro: 'Bairro A', cidade: 'Cidade A', estado: 'Estado A' },
-//     { id: 2, name: 'Cliente 2', cpf: '987.654.321-00', phone: '987654321', email: 'cliente2@example.com', status: 'Inativo', cep: '87654-321', rua: 'Rua B', numero: '200', bairro: 'Bairro B', cidade: 'Cidade B', estado: 'Estado B' },
-//     { id: 3, name: 'Cliente 3', cpf: '111.222.333-44', phone: '111222333', email: 'cliente3@example.com', status: 'Ativo', cep: '54321-987', rua: 'Rua C', numero: '300', bairro: 'Bairro C', cidade: 'Cidade C', estado: 'Estado C' },
-// ];
-
-// const customers = [
-//     { id: 1, name: 'Lennon', cpf: '123.456.789-00', phone: '123456789', email: 'cliente1@example.com', status: 'Ativo', cep: '12345-678', rua: 'Rua A', numero: '100', bairro: 'Bairro A', cidade: 'Cidade A', estado: 'Estado A' },
-//     { id: 2, name: 'David', cpf: '987.654.321-00', phone: '987654321', email: 'cliente2@example.com', status: 'Inativo', cep: '87654-321', rua: 'Rua B', numero: '200', bairro: 'Bairro B', cidade: 'Cidade B', estado: 'Estado B' },
-//     { id: 3, name: 'Tiago', cpf: '111.222.333-44', phone: '111222333', email: 'cliente3@example.com', status: 'Ativo', cep: '54321-987', rua: 'Rua C', numero: '300', bairro: 'Bairro C', cidade: 'Cidade C', estado: 'Estado C' },
-// ];
-
 export const useUserService = () => {
     const [users, setUsers] = useLocalStorage("users", []);
 
@@ -31,26 +19,20 @@ export const useUserService = () => {
     function create(newUser) {
         newUser.id = Date.now(); // Gera um ID baseado no timestamp atual
         setUsers(prevState => {
-            const updatedUsers = [...prevState, newUser];
-            localStorage.setItem("users", JSON.stringify(updatedUsers));
-            return updatedUsers;
+            return [...prevState, newUser];
         });
     }
 
-
     function update(id, newData) {
-        console.log('-----> updatedUsers ', updatedUsers)
+        console.log(id);
         setUsers(prevState => {
-            const updatedUsers = prevState.map(user => {
+            return prevState.map(user => {
                 if (user.id === id) {
-                    return { ...user, ...newData }; // Atualiza apenas o usuário correspondente ao ID
+                    return {...user, ...newData};
                 } else {
                     return user;
                 }
             });
-
-            localStorage.setItem("users", JSON.stringify(updatedUsers)); // Atualiza no localStorage
-            return updatedUsers; // Retorna a lista atualizada de usuários
         });
     }
 

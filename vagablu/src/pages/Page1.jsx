@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import GenericSearch from '../component/common/GenericSearch.jsx';
 import styled from 'styled-components';
-import {TableCell, IconButton} from '@mui/material';
+import {IconButton, TableCell} from '@mui/material';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
 import InformacoesBasicas from '../component/common/modal/InformacoesBasicas.jsx';
@@ -24,7 +24,6 @@ const StyledGrid = styled.div`
     overflow: auto;
 `;
 
-
 const StatusIndicator = styled.span`
     background-color: ${({status}) => {
         switch (status) {
@@ -41,12 +40,10 @@ const StatusIndicator = styled.span`
     padding: 4px 8px;
 `;
 
-
 const Page1 = () => {
     const [open, setOpen] = useState(false);
     const [selectedCustomer, setSelectedCustomer] = useState(null);
     const [users, setUsers] = useState([]);
-    console.log(users)
     const {getAll, remove, update, create} = useUserService()
 
     useEffect(() => {
@@ -77,19 +74,20 @@ const Page1 = () => {
     };
 
     const handleSaveCustomer = async (customer) => {
-        setSelectedCustomer(customer);
-        setOpen(true);
-        await create(customer)
+        if (customer.id) {
+            console.log(customer.id);
+            await update(customer.id, customer); // Chama a função update se houver um ID
+        } else {
+            await create(customer); // Chama a função create se não houver um ID
+        }
+        setSelectedCustomer(null);
+        setOpen(false);
     };
 
     const handleEditCustomer = (customer) => {
         setSelectedCustomer(customer); // Define o cliente selecionado para edição
         setOpen(true); // Abre o modal de edição
-        update(customer.id, customer); // Chama a função update com o ID e os novos dados do cliente
     };
-
-
-
 
     const handleDeleteCustomer = async (customerId) => {
         await remove(customerId)
