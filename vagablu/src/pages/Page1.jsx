@@ -47,7 +47,7 @@ const Page1 = () => {
     const [selectedCustomer, setSelectedCustomer] = useState(null);
     const [users, setUsers] = useState([]);
     console.log(users)
-    const {getAll, remove} = useUserService()
+    const {getAll, remove, update, create} = useUserService()
 
     useEffect(() => {
         getAllCustomers()
@@ -76,10 +76,20 @@ const Page1 = () => {
         setOpen(true);
     };
 
-    const handleEditCustomer = (customer) => {
+    const handleSaveCustomer = async (customer) => {
         setSelectedCustomer(customer);
         setOpen(true);
+        await create(customer)
     };
+
+    const handleEditCustomer = (customer) => {
+        setSelectedCustomer(customer); // Define o cliente selecionado para edição
+        setOpen(true); // Abre o modal de edição
+        update(customer.id, customer); // Chama a função update com o ID e os novos dados do cliente
+    };
+
+
+
 
     const handleDeleteCustomer = async (customerId) => {
         await remove(customerId)
@@ -99,7 +109,7 @@ const Page1 = () => {
 
     const renderActionsCell = (customer) => (
         <TableCell>
-            <IconButton onClick={() => handleEditCustomer(customer)}>
+            <IconButton onClick={() => handleEditCustomer(customer.id)}>
                 <EditIcon/>
             </IconButton>
             <IconButton onClick={() => handleDeleteCustomer(customer.id)}>
@@ -130,6 +140,7 @@ const Page1 = () => {
                 open={open}
                 onClose={handleCloseModal}
                 initialValues={selectedCustomer}
+                onSave={handleSaveCustomer}
             />
         </StyledGrid>
     );

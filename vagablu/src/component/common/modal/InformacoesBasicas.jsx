@@ -26,7 +26,7 @@ const StyledGridItem = styled(Grid)`
   margin-bottom: 16px;
 `;
 
-const InformacoesBasicas = ({ open, onClose, initialValues }) => {
+const InformacoesBasicas = ({ open, onClose, initialValues, onSave}) => {
   const [formData, setFormData] = useState({
     name: '',
     cpf: '',
@@ -54,8 +54,10 @@ const InformacoesBasicas = ({ open, onClose, initialValues }) => {
     e.preventDefault();
     // Adicione a lógica para salvar os dados aqui
     console.log(formData);
+    onSave(formData); // Chama a função onSave com os dados do formulário
     onClose();
   };
+
 
   return (
     <Modal
