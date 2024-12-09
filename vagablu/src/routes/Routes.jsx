@@ -11,7 +11,7 @@ const Routes = [
     type: 'LOGIN',
   },
   {
-    name: 'Menu 1',
+    name: 'Cadastro de Cliente',
     path: '/menu1',
     component: <Page1 />,
     exact: true,
